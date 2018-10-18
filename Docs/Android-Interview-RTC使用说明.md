@@ -1,4 +1,4 @@
-# ZjRTC使用说明
+# Android-Interview-RTC使用说明
 
 ##	安装环境
 
