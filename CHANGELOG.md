@@ -1,8 +1,8 @@
 # CHANGELOG
 
-## Version 
+## Version 1.0.0
 
-*2018-10-18*
+*2018-10-22*
 
-* first add
+* first commit
 
