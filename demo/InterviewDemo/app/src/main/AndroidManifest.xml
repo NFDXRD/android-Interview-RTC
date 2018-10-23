@@ -11,7 +11,8 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".MyVideoActivity"
-            android:process=":zjvideo" />
+            android:process=":zjvideo"
+            android:theme="@style/Theme.beginBackground"/>
 
         <activity android:name=".InterviewActivity">
             <intent-filter>

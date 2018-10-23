@@ -246,6 +246,10 @@ startActivity(intent);
 
 切换摄像头。
 
+#### sendMessage(String message)
+
+发消息，群发。
+
 #### callOut(String destination, String protocol, String role)
 
 外呼方法，destination:外呼地址，protocol:协议(如：‘sip’,'h.323')，role:角色('host','guest')
@@ -319,6 +323,13 @@ void onCameraState(boolean isPause);
  * @param isPause
  */
 void onMicrophoneState(boolean isPause);
+
+/**
+ * 接收到消息回调
+ * @param uuid
+ * @param message
+ */
+void onChatMessage(String uuid,String message);
 ```
 
 使用示例：
@@ -349,6 +360,11 @@ ZjVideoManager.getInstance().addZjCallListener(new ZjCallListenerBase(){
     @Override
     public void onMicrophoneState(boolean isPause) {
         Log.v(TAG,"onMicrophoneState"+isPause);
+    }
+
+    @Override
+    public void onChatMessage(String uuid, String message) {
+        Log.v(TAG,"onChatMessage"+uuid+message);
     }
 });
 ```

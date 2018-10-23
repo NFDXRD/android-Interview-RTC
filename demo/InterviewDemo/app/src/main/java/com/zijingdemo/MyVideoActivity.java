@@ -60,6 +60,11 @@ public class MyVideoActivity extends ZjVideoActivity {
             public void onMicrophoneState(boolean isPause) {
                 Log.v(TAG,"onMicrophoneState"+isPause);
             }
+
+            @Override
+            public void onChatMessage(String uuid, String message) {
+                Log.v(TAG,"onChatMessage"+uuid+message);
+            }
         });
     }
 
@@ -77,6 +82,10 @@ public class MyVideoActivity extends ZjVideoActivity {
 
     public void disconnect(View v){
         ZjVideoManager.getInstance().disconnect();
+    }
+
+    public void sendMessage(View v){
+        ZjVideoManager.getInstance().sendMessage("哈哈哈");
     }
 
     public void callOut(View v){
