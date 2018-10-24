@@ -74,7 +74,7 @@ ZjVideoPreferences prefs = new ZjVideoPreferences(this);
 
 #### setBandwidth(int bandwidth) 
 
-设置呼叫速率，上行/下行一致。默认为576kbps。
+设置呼叫速率，上行/下行一致。默认为800kbps。
 
 #### setBandwidth(int upBw, int downBw)
 
@@ -82,7 +82,7 @@ ZjVideoPreferences prefs = new ZjVideoPreferences(this);
 
 #### setVideoSize(int width, int height)
 
-设置视频分辨率，发送/接收的视频分辨率一致。默认视频分辨率为640x360。
+设置视频分辨率，发送/接收的视频分辨率一致。默认视频分辨率为480x640。
 
 #### setVideoSize(int upWidth, int upHeight, int downWidth, int downHeight)
 
@@ -330,6 +330,12 @@ void onMicrophoneState(boolean isPause);
  * @param message
  */
 void onChatMessage(String uuid,String message);
+
+/**
+ * 与会者列表更新
+ * @param participants
+ */
+void onParticipantsUpdate(ReadableArray participants);
 ```
 
 使用示例：

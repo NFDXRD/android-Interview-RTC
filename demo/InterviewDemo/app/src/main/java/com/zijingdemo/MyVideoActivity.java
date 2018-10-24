@@ -65,6 +65,11 @@ public class MyVideoActivity extends ZjVideoActivity {
             public void onChatMessage(String uuid, String message) {
                 Log.v(TAG,"onChatMessage"+uuid+message);
             }
+
+            @Override
+            public void onParticipantsUpdate(ReadableArray participants) {
+                Log.v(TAG,"participants"+participants);
+            }
         });
     }
 
