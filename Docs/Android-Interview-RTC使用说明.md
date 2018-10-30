@@ -135,7 +135,7 @@ ZjVideoPreferences prefs = new ZjVideoPreferences(this);
 
 如果需要自定义通话界面，创建自己的`Activity`，要`extends AppCompatActivity implements DefaultHardwareBackBtnHandler`。
 
-1. Activiy需要在AndroidManifest.xml中配置一下主题Theme.ReactNative.AppCompat.Light（react native好多组件用的这个主题），最好配置下进程（react native存在内存泄漏的问题，返回入会退会会导致内存泄漏，目前最好的解决方法是开一个新的进程，在退出该界面后，杀掉该进程来释放内存）：
+1. Activiy需要在AndroidManifest.xml中配置一下主题Theme.ReactNative.AppCompat.Light（react native好多组件用的这个主题），最好配置下进程（react native存在内存泄漏的问题，反复入会退会会导致内存泄漏，目前最好的解决方法是开一个新的进程，在退出该界面后，杀掉该进程来释放内存）：
  
     ```
     <activity
@@ -196,12 +196,6 @@ ZjVideoPreferences prefs = new ZjVideoPreferences(this);
         ZjRTCViewManager.onBackPressed();
     }
     ```
-4. 构建呼叫参数类ZjCall，跳转到你的会中activity，并把对象call传过去。
-
-    ```
-     
-
-    ```
 
 ## 建立通话
 
@@ -252,7 +246,7 @@ ZjVideoPreferences prefs = new ZjVideoPreferences(this);
 
 ### ZjVideoManager
 
-在通话过程中，可调用ZjVideoManager进行结束通话、关闭麦克风等其他操作。注意：必须保证在进程“你的项目报名:zjvideo”如“com.zijingdemo:zjvideo”中调用ZjVideoManager操作才能生效（ZjVideoActivity的子类或者配置了android:process=":zjvideo"的安卓四大组件中调用）
+在通话过程中，可调用ZjVideoManager进行结束通话、关闭麦克风等其他操作。
 
 #### disconnect()
 
