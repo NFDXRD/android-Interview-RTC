@@ -11,7 +11,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".MyVideoActivity"
-            android:theme="@style/Theme.beginBackground"/>
+            android:theme="@style/Theme.ReactNative.AppCompat.Light"/>
 
         <activity android:name=".InterviewActivity">
             <intent-filter>
