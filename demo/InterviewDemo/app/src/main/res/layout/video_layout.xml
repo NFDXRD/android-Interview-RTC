@@ -9,43 +9,62 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="切换"
-            android:onClick="switchCamera"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="静画"
-            android:onClick="pauseCamara"/>
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="切换"
+                android:onClick="switchCamera"/>
 
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="静音"
-            android:onClick="pauseMic"/>
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="静画"
+                android:onClick="pauseCamara"/>
 
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="挂断"
-            android:onClick="disconnect"/>
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="静音"
+                android:onClick="pauseMic"/>
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:text="发消息"
-            android:onClick="sendMessage"/>
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="挂断"
+                android:onClick="disconnect"/>
+        </LinearLayout>
 
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="外呼"
-            android:onClick="callOut"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="发消息"
+                android:onClick="sendMessage"/>
+
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="重连"
+                android:onClick="reconnect"/>
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="外呼"
+                android:onClick="callOut"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
