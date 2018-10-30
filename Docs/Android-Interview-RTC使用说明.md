@@ -117,16 +117,6 @@ ZjVideoPreferences prefs = new ZjVideoPreferences(this);
 |	WCIF	|	512x288	|	20	|	192 |
 |	WCIF	|	512x288	|	15	|	160 |
 
-#### setPrintLogs(boolean printLogs)
-
-打印日志信息，日志以文件形式存储在本地。
-参数为true 打印日志，false不打印日志；默认值为false。
-当设备有SD卡时，文件存储在SD卡中；无SD卡时，保存在应用的目录下。存储日志的文件夹名称为`应用包名+Logs`，文件名称为`日期时间.log`。
-以华为EC6108V9盒子为例，其中一条日志：
-`/mnt/sdcard/com.testrnsdkLogs/'20170920153152.log'`
-手机可通过`文件管理`功能，查看SD卡的`com.testrnsdkLogs`文件夹。
-为了避免日志文件占用过多存储空间，每次进入视频通讯界面，都会删除多余的日志文件，只保留当前和上次视频通讯的日志。
-
 #### setSoftCode(boolean softCode)
 
 设置使用视频编码方式为软编解。
@@ -143,58 +133,97 @@ ZjVideoPreferences prefs = new ZjVideoPreferences(this);
 
 ### 自定义通话界面
 
-如果需要自定义通话界面，可按以下方法添加子View至ZjVideoActivity中，你的界面将会覆盖在通话界面上。
+如果需要自定义通话界面，创建自己的`Activity`，要`extends AppCompatActivity implements DefaultHardwareBackBtnHandler`。
 
-1. 新建`ZjVideoActivity`的子类，作为你的通话界面。子类Activiy需要在AndroidManifest.xml中配置一下进程属性：
+1. Activiy需要在AndroidManifest.xml中配置一下主题Theme.ReactNative.AppCompat.Light（react native好多组件用的这个主题），最好配置下进程（react native存在内存泄漏的问题，返回入会退会会导致内存泄漏，目前最好的解决方法是开一个新的进程，在退出该界面后，杀掉该进程来释放内存）：
  
     ```
-    android:process=":zjvideo"
+    <activity
+            android:name=".MyVideoActivity"
+            android:process=":myprocess"
+            android:theme="@style/Theme.ReactNative.AppCompat.Light"/>
     ```
     
-2. 重写其中的`onCreate()`方法，在onCreate()中调用`addContentView()`方法添加子界面。
+2. 在`onCreate()`中做以下操作
 
     代码示例：
 
     ```
-    public class MyVideoActivity extends ZjVideoActivity {
-        @Override
-        protected void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            //R.layout.video_layout你的布局文件
-            View view = LayoutInflater.from(this).inflate(R.layout.video_layout, null);
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams (ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
-            addContentView(view, params);
-        }
+    call = (ZjCall) getIntent().getSerializableExtra("call");
+    //设置呼叫参数
+    ZjVideoManager.getInstance().setCall(call);
+    //初始化ZjRTCViewManager
+    ZjRTCViewManager.init(getApplication());
+    //获取rootView
+    mReactRootView = ZjRTCViewManager.getRootView(this);
+    //打开reactApplication
+    ZjRTCViewManager.startReactApplication();
+
+    //显示rootView
+    Resources resources = this.getResources();
+    DisplayMetrics dm = resources.getDisplayMetrics();
+    WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(dm.widthPixels,dm.widthPixels);
+    params.gravity = Gravity.TOP;
+    addContentView(mReactRootView,params);
+    ```
+
+3. 实现`DefaultHardwareBackBtnHandler`接口的`invokeDefaultOnBackPressed()`方法，在activity的部分生命周期对ZjRTCViewManager和ZjRTCViewManager做相应操作，详见demo
+
+    ```
+    @Override
+    public void invokeDefaultOnBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ZjRTCViewManager.onResume(this,this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        ZjRTCViewManager.onDestory(this);
+        ZjVideoManager.getInstance().release();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //传递返回按钮点击事件（退会操作），不设置可以自己处理返回按钮事件，但要记得做退会操作。
+        ZjRTCViewManager.onBackPressed();
     }
     ```
-
-3. 最后跳转至你的通话界面，完成自定义通话界面。
+4. 构建呼叫参数类ZjCall，跳转到你的会中activity，并把对象call传过去。
 
     ```
-    startActivity(new Intent(this, MyVideoActivity.class)); 
+     
+
     ```
 
 ## 建立通话
 
 ### 呼叫说明
 
-每次呼叫，需要new一个ZjCall的对象，设置显示名、呼叫地址、密码(有密码则需要设置)、checkdup、是否是面试官，然后跳转至通话界面ZjVideoActivity或其子类，把ZjCall的实例传过去。
+每次呼叫，需要new一个ZjCall的对象，设置显示名、呼叫地址、密码(面试官用主持人密码，候选人用访客密码)、checkdup、是否是面试官，然后跳转至自定义通话界面，把ZjCall的实例传过去。
 
 示例：
 
-```
-//构建呼叫参数类，设置显示名称、呼叫地址、呼叫密码；
-ZjCall call = new ZjCall();
-call.setDisplayName("面试官");
-call.setAddress("1234");
-call.setPwd("123456");//会议室主持人密码
-call.setCheckDup(MD5Util.MD5(Build.MODEL+"面试官"));
-call.setInterviewer(true);
+    ```
+    //构建呼叫参数类，设置显示名称、呼叫地址、呼叫密码；
+    ZjCall call = new ZjCall();
+    call.setDisplayName("面试官");
+    call.setAddress("9343");
+    call.setPwd("123456");//会议室主持人密码
+    call.setCheckDup(MD5Util.MD5(Build.MODEL+"面试官"));
+    call.setInterviewer(true);
 
-Intent intent = new Intent(InterviewActivity.this,MyActivity.class);
-intent.putExtra("call",call);
-startActivity(intent);
-```
+    Intent intent = new Intent(InterviewActivity.this,MyVideoActivity.class);
+    intent.putExtra("call",call);
+    startActivity(intent);
+    ```
 
 ### ZjCall
 
@@ -217,8 +246,7 @@ startActivity(intent);
 #### setCheckDup(String checkDup)
 
 用于检查重复参会者。
-入会时会检查同一会议室中是否已存在同名且checkDup值一样的参会者，如果存在则入会，并将同名参会者踢出会议。checkDup是一个30位以上长度的字符串，一般用MD5 Hash生成（32位）。
-
+入会时会检查同一会议室中是否已存在同名且checkDup值一样的参会者，如果存在则入会，并将同名参会者踢出会议。checkDup是一个30位以上长度的字符串，一般用MD5 Hash生成（32位）。（建议用手机序列号+名称拼接，并用MD5加密生成）
 
 ## 通话管理
 
@@ -245,6 +273,10 @@ startActivity(intent);
 #### switchCamera()
 
 切换摄像头。
+
+#### reconnect()
+
+重连，用于异常时重新连接
 
 #### sendMessage(String message)
 
