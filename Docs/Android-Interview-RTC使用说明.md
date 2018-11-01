@@ -149,23 +149,16 @@ ZjVideoPreferences prefs = new ZjVideoPreferences(this);
     代码示例：
 
     ```
+    ReactRootView rootView = (ReactRootView) findViewById(R.id.root_view);
     call = (ZjCall) getIntent().getSerializableExtra("call");
     //设置呼叫参数
     ZjVideoManager.getInstance().setCall(call);
     //初始化ZjRTCViewManager
     ZjRTCViewManager.init(getApplication());
-    //获取rootView
-    mReactRootView = ZjRTCViewManager.getRootView(this);
+    //设置rootView
+    ZjRTCViewManager.setReactRootView(rootView);
     //打开reactApplication
     ZjRTCViewManager.startReactApplication();
-
-    //显示rootView
-    Resources resources = this.getResources();
-    DisplayMetrics dm = resources.getDisplayMetrics();
-    WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(dm.widthPixels,dm.widthPixels);
-    params.gravity = Gravity.TOP;
-    addContentView(mReactRootView,params);
     ```
 
 3. 实现`DefaultHardwareBackBtnHandler`接口的`invokeDefaultOnBackPressed()`方法，在activity的部分生命周期对ZjRTCViewManager和ZjRTCViewManager做相应操作，详见demo

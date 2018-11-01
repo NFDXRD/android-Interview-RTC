@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -27,8 +29,6 @@ public class MyVideoActivity extends AppCompatActivity implements DefaultHardwar
 
     private final String TAG = "MyVideoActivity";
 
-    private ReactRootView mReactRootView;
-
     private ZjCall call;
 
     @Override
@@ -37,23 +37,16 @@ public class MyVideoActivity extends AppCompatActivity implements DefaultHardwar
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.video_layout);
 
+        ReactRootView rootView = (ReactRootView) findViewById(R.id.root_view);
         call = (ZjCall) getIntent().getSerializableExtra("call");
         //设置呼叫参数
         ZjVideoManager.getInstance().setCall(call);
         //初始化ZjRTCViewManager
         ZjRTCViewManager.init(getApplication());
-        //获取rootView
-        mReactRootView = ZjRTCViewManager.getRootView(this);
+        //设置rootView
+        ZjRTCViewManager.setReactRootView(rootView);
         //打开reactApplication
         ZjRTCViewManager.startReactApplication();
-
-        //显示rootView
-        Resources resources = this.getResources();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(dm.widthPixels,dm.widthPixels);
-        params.gravity = Gravity.TOP;
-        addContentView(mReactRootView,params);
 
         setListener();
     }
