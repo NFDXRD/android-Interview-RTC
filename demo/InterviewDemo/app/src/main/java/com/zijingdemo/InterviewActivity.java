@@ -33,7 +33,8 @@ public class InterviewActivity extends AppCompatActivity {
                 //构建呼叫参数类，设置显示名称、呼叫地址、呼叫密码；
                 ZjCall call = new ZjCall();
                 call.setDisplayName("面试官");
-                call.setAddress("2216");
+                //会议室地址和密码不设置，使用默认设置
+                call.setAddress("9343");
                 call.setPwd("123456");//会议室主持人密码
                 call.setCheckDup(MD5Util.MD5(Build.MODEL+"面试官"));
                 call.setInterviewer(true);
@@ -50,8 +51,9 @@ public class InterviewActivity extends AppCompatActivity {
                 //构建呼叫参数类，设置显示名称、呼叫地址、呼叫密码；
                 ZjCall call = new ZjCall();
                 call.setDisplayName("应聘者");
-                call.setAddress("2216");
-                call.setPwd("");//会议室访客密码
+                //会议室地址和密码不设置，使用默认设置
+                call.setAddress("9343");
+                call.setPwd("123456");//会议室访客密码
                 call.setCheckDup(MD5Util.MD5(Build.MODEL+"应聘者"));
                 call.setInterviewer(false);
 
