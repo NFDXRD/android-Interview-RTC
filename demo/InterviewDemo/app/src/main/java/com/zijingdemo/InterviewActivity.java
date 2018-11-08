@@ -57,6 +57,7 @@ public class InterviewActivity extends AppCompatActivity {
                 call.setCheckDup(MD5Util.MD5(Build.MODEL+"应聘者"));
                 call.setInterviewer(false);
 
+
                 Intent intent = new Intent(InterviewActivity.this,MyVideoActivity.class);
                 intent.putExtra("call",call);
                 startActivity(intent);

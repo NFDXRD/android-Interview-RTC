@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -34,8 +35,6 @@ public class MyVideoActivity extends AppCompatActivity implements DefaultHardwar
         call = (ZjCall) getIntent().getSerializableExtra("call");
         //设置呼叫参数
         ZjVideoManager.getInstance().setCall(call);
-        //初始化ZjRTCViewManager
-        ZjRTCViewManager.init(getApplication());
         //设置rootView
         ZjRTCViewManager.setReactRootView(rootView);
         //打开reactApplication
@@ -50,6 +49,13 @@ public class MyVideoActivity extends AppCompatActivity implements DefaultHardwar
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        //要想后台不断开会议，就不调用onPause
+//        ZjRTCViewManager.onPause(this);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         ZjRTCViewManager.onResume(this,this);
@@ -58,14 +64,15 @@ public class MyVideoActivity extends AppCompatActivity implements DefaultHardwar
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        ZjRTCViewManager.onDestory(this);
         ZjVideoManager.getInstance().release();
+        ZjRTCViewManager.onDestory(this);
     }
 
     @Override
     public void onBackPressed() {
-        //传递返回按钮点击事件（退会操作），不设置可以自己处理返回按钮事件，但要记得做退会操作。
+        //这里做你的返回操作
+
+        //传递返回按钮点击事件
         ZjRTCViewManager.onBackPressed();
     }
 
