@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 1.0.9
+
+*2018-11-8*
+
+* ZjVideoManager.disconnect()回调CALL_END
+
 ## Version 1.0.8
 
 *2018-11-8*
