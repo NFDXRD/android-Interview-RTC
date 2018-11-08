@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version 1.0.8
+
+*2018-11-8*
+
+* ZjRTCViewManager.onDestory(Activity activity)中做mReactInstanceManager.destroy();
+* 修改demo,在Application中ZjRTCViewManager.init(this);
+
 ## Version 1.0.7
 
 *2018-11-7*
