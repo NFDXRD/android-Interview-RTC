@@ -95,6 +95,12 @@ public class MyVideoActivity extends AppCompatActivity implements DefaultHardwar
                 Log.i(TAG,"participants:" + participants);
                 super.onParticipantsUpdate(participants);
             }
+
+            @Override
+            public void onRecord(boolean isRecord) {
+                Log.i(TAG,"onRecord: "+isRecord);
+                super.onRecord(isRecord);
+            }
         });
     }
 
@@ -120,6 +126,14 @@ public class MyVideoActivity extends AppCompatActivity implements DefaultHardwar
 
     public void reconnect(View v){
         ZjVideoManager.getInstance().reconnect();
+    }
+
+    public void openRecord(View v){
+        ZjVideoManager.getInstance().toggleRecord(true);
+    }
+
+    public void closeRecord(View v){
+        ZjVideoManager.getInstance().toggleRecord(false);
     }
 
     public void callOut(View v){

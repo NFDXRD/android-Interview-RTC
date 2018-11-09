@@ -46,6 +46,19 @@
                 android:layout_height="wrap_content"
                 android:text="挂断"
                 android:onClick="disconnect"/>
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="打开录制"
+                android:onClick="openRecord"/>
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="关闭录制"
+                android:onClick="closeRecord"/>
+
         </LinearLayout>
 
         <LinearLayout
