@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 1.1.1
+
+*2018-11-13*
+
+* 增加预定人数设置接口call.setNumber(int number)，根据人数可提前留出位置
+
 ## Version 1.1.0
 
 *2018-11-9*

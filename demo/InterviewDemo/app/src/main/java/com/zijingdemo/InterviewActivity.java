@@ -5,16 +5,21 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.zjrtc.ZjCall;
 import com.zjrtc.ZjVideoPreferences;
 
 public class InterviewActivity extends AppCompatActivity {
 
+    private EditText etNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interview);
+
+        etNumber = (EditText) findViewById(R.id.et_number);
 
         //设置服务器地址、视频参数等偏好设置
         ZjVideoPreferences prefs = new ZjVideoPreferences(this);
@@ -38,6 +43,7 @@ public class InterviewActivity extends AppCompatActivity {
                 call.setPwd("123456");//会议室主持人密码
                 call.setCheckDup(MD5Util.MD5(Build.MODEL+"面试官"));
                 call.setInterviewer(true);
+                call.setNumber(Integer.parseInt(etNumber.getText().toString()));
 
                 Intent intent = new Intent(InterviewActivity.this,MyVideoActivity.class);
                 intent.putExtra("call",call);
@@ -56,7 +62,7 @@ public class InterviewActivity extends AppCompatActivity {
                 call.setPwd("123456");//会议室访客密码
                 call.setCheckDup(MD5Util.MD5(Build.MODEL+"应聘者"));
                 call.setInterviewer(false);
-
+                call.setNumber(Integer.parseInt(etNumber.getText().toString()));
 
                 Intent intent = new Intent(InterviewActivity.this,MyVideoActivity.class);
                 intent.putExtra("call",call);
