@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 1.1.2
+
+*2018-11-15*
+
+* 解决一个入会时，setNumber不生效的问题
+
 ## Version 1.1.1
 
 *2018-11-13*
